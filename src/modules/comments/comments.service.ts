@@ -3,7 +3,7 @@ import { NotFoundError } from "../../utils/errors";
 import prisma from "../../utils/prisma";
 import { UserService } from "../user/User.service";
 
-export class commentsService {
+export class CommentsService {
   async getPostComments(postId: string) {
     // get comments for post
     return await prisma.comment.findMany({
@@ -67,3 +67,5 @@ export class commentsService {
     });
   }
 }
+
+export default new CommentsService();
