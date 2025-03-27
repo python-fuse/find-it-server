@@ -12,6 +12,16 @@ export class commentsController {
     }
   }
 
+  async getComment(req: Request, res: Response, next: NextFunction) {
+    const commentId = req.params.commentId;
+    try {
+      const comment = await CommentsService.getComment(commentId);
+      res.json(comment);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getUserComments(req: Request, res: Response, next: NextFunction) {
     const userId = req.params.userId;
     try {
@@ -56,3 +66,5 @@ export class commentsController {
     }
   }
 }
+
+export default new commentsController();
