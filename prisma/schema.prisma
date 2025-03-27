@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  googleID        String    @unique
+  email           String    @unique
+  avatar          String
+  username        String
+  admissionNumber String
+  department      String
+  faculty         String
+  reputation      Int       @default(0)
+  role            Role      @default(STUDENT)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  posts           Post[]
+  comments        Comment[]
+  sentChats       Chat[]    @relation("sender")
+  recievedChats   Chat[]    @relation("reciever")
+  Message         Message[]
+}
+
+// chat model between 2 users
+model Chat {
+  id        String    @id @default(cuid())
+  user1     User      @relation("sender", fields: [user1ID], references: [id])
+  user1ID   String
+  user2     User      @relation("reciever", fields: [user2ID], references: [id])
+  user2ID   String
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  chat      Chat     @relation(fields: [chatID], references: [id])
+  chatID    String
+  sender    User     @relation(fields: [senderID], references: [id])
+  senderID  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Model for a post for a lost/found item
+model Post {
+  id          String     @id @default(cuid())
+  title       String
+  description String
+  category    String
+  location    String
+  imageURLS   String[]
+  postType    PostType
+  postStatus  PostStatus
+  user        User       @relation(fields: [userID], references: [id])
+  userID      String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  comments    Comment[]
+}
+
+// model for a comment on a post
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  post      Post     @relation(fields: [postID], references: [id])
+  postID    String
+  userID    String
+  user      User     @relation(fields: [userID], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum PostType {
+  LOST
+  FOUND
+}
+
+enum PostStatus {
+  Active
+  Resolved
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+  MODERATOR
+}
