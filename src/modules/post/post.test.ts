@@ -1,2 +1,1 @@
-
-    import { postService } from "./post.service";
+import { PostService } from "./post.service";

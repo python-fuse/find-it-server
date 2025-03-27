@@ -19,9 +19,9 @@ model User {
   email           String    @unique
   avatar          String
   username        String
-  admissionNumber String
-  department      String
-  faculty         String
+  admissionNumber String?
+  department      String?
+  faculty         String?
   reputation      Int       @default(0)
   role            Role      @default(STUDENT)
   createdAt       DateTime  @default(now())
@@ -71,6 +71,14 @@ model Post {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   comments    Comment[]
+}
+
+// Session model for prisma session store
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
 
 // model for a comment on a post
