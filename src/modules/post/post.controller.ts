@@ -60,6 +60,44 @@ export class postController {
       return;
     }
   }
+
+  async claimPost(req: Request, res: Response, next: NextFunction) {
+    const postId = req.params.postId;
+    const userId = req.params.userId;
+    try {
+      const post = await postService.claimPost(postId, userId);
+      res.status(200).json(post);
+      return;
+    } catch (error) {
+      next(error);
+      return;
+    }
+  }
+
+  async removeAllClaims(req: Request, res: Response, next: NextFunction) {
+    const postId = req.params.postId;
+    try {
+      await postService.removeAllClaims(postId);
+      res.status(200).json({ message: "All claims removed" });
+      return;
+    } catch (error) {
+      next(error);
+      return;
+    }
+  }
+
+  async markPostAsResolved(req: Request, res: Response, next: NextFunction) {
+    const postId = req.params.postId;
+    try {
+      const post = await postService.markPostAsResolved(postId);
+      res.status(200).json(post);
+      return;
+    } catch (error) {
+      next(error);
+      return;
+    }
+  }
+
   async deletePost(req: Request, res: Response, next: NextFunction) {
     const postId = req.params.postId;
     try {

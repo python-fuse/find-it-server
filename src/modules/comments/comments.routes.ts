@@ -13,7 +13,7 @@ commentsRouter.get("/posts/:postId", commentsController.getPostComments);
 commentsRouter.get("/users/:userId", commentsController.getUserComments);
 
 // create comment
-commentsRouter.post("/", commentsController.createComment);
+commentsRouter.post("/create", commentsController.createComment);
 
 // update comment
 commentsRouter.put("/:commentId", commentsController.updateComment);

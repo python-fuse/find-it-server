@@ -11,6 +11,7 @@ import prisma from "../utils/prisma";
 import { authorizeUser } from "../middlewares/authorization.middleware";
 import { User } from "@prisma/client";
 import { postRouter } from "../modules/post/post.routes";
+import { commentsRouter } from "../modules/comments/comments.routes";
 
 const cookieSecret = process.env.COOKIE_SECRET || "";
 
@@ -40,6 +41,7 @@ app.get("/", authorizeUser, (req, res) => {
 app.use("/v1/users", authorizeUser, userRouter);
 app.use("/v1/auth", authRouter);
 app.use("/v1/posts", authorizeUser, postRouter);
+app.use("/v1/comments", authorizeUser, commentsRouter);
 
 app.use(errorHandler);
 

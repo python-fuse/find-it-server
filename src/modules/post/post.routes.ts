@@ -9,4 +9,9 @@ postRouter.post("/", postController.createPost);
 postRouter.put("/:id", postController.updatePost);
 postRouter.delete("/:id", postController.deletePost);
 
+// Ownership and claims
+postRouter.get("/:id/claim", postController.claimPost);
+postRouter.get("/:id/remove-claims", postController.removeAllClaims);
+postRouter.get("/:id/resolve", postController.markPostAsResolved);
+
 export { postRouter };

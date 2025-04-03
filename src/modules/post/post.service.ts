@@ -1,4 +1,4 @@
-import { Post } from "@prisma/client";
+import { Post, PostStatus } from "@prisma/client";
 import { NotFoundError } from "../../utils/errors";
 import prisma from "../../utils/prisma";
 
@@ -50,6 +50,55 @@ export class PostService {
       data: post,
     });
   }
+
+  async claimPost(postId: string, userId: string) {
+    const dbPost = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+    if (!dbPost) {
+      throw new NotFoundError("Post not found");
+    }
+
+    return await prisma.post.update({
+      where: { id: postId },
+      data: {
+        claimedByID: userId,
+      },
+    });
+  }
+
+  async removeAllClaims(postId: string) {
+    const dbPost = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+    if (!dbPost) {
+      throw new NotFoundError("Post not found");
+    }
+
+    return await prisma.post.update({
+      where: { id: postId },
+      data: {
+        claimedByID: null,
+      },
+    });
+  }
+
+  async markPostAsResolved(postId: string) {
+    const dbPost = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+    if (!dbPost) {
+      throw new NotFoundError("Post not found");
+    }
+
+    return await prisma.post.update({
+      where: { id: postId },
+      data: {
+        postStatus: PostStatus.Resolved,
+      },
+    });
+  }
+
   async deletePost(postId: string) {
     const dbPost = await prisma.post.findUnique({
       where: { id: postId },
