@@ -1,7 +1,7 @@
-import { body, param } from "express-validator";
+import { body, param, ValidationChain } from "express-validator";
 
 export class CommentsValidation {
-  static createComment = [
+  static createComment: ValidationChain[] = [
     body("content")
       .trim()
       .notEmpty()
