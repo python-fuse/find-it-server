@@ -63,7 +63,7 @@ export class postController {
 
   async claimPost(req: Request, res: Response, next: NextFunction) {
     const postId = req.params.postId;
-    const userId = req.params.userId;
+    const userId = req.body.userId;
     try {
       const post = await postService.claimPost(postId, userId);
       res.status(200).json(post);

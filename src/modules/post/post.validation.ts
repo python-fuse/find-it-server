@@ -118,4 +118,9 @@ export class PostValidation {
   static delete: ValidationChain[] = [
     param("id").notEmpty().withMessage("Post ID is required!"),
   ];
+
+  static claim: ValidationChain[] = [
+    param("postId").notEmpty().withMessage("Post ID is required!"),
+    body("userId").notEmpty().withMessage("User ID is required!"),
+  ];
 }
