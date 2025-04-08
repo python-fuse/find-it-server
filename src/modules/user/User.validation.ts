@@ -2,11 +2,7 @@ import { body, param, ValidationChain } from "express-validator";
 
 export class UserValidation {
   static createUser: ValidationChain[] = [
-    body("googleID")
-      .notEmpty()
-      .withMessage("Google ID is required")
-      .isString()
-      .withMessage("Google ID must be a string"),
+    body("googleID").notEmpty().withMessage("Google ID is required"),
 
     body("email")
       .notEmpty()
@@ -16,6 +12,7 @@ export class UserValidation {
       .normalizeEmail(),
 
     body("avatar")
+      .optional()
       .notEmpty()
       .withMessage("Avatar URL is required")
       .isURL()

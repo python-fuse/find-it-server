@@ -41,20 +41,24 @@ export class CommentsService {
 
     return dbComment;
   }
-  async createComment(comment: Comment) {
+  async createComment(
+    comment: Omit<Comment, "id" | "createdAt" | "updatedAt">
+  ) {
     // create comment
     return await prisma.comment.create({
       data: comment,
     });
   }
 
-  async updateComment(commentId: string, comment: Comment) {
+  async updateComment(commentId: string, content: string) {
     // update comment
     return await prisma.comment.update({
       where: {
         id: commentId,
       },
-      data: comment,
+      data: {
+        content: content,
+      },
     });
   }
 

@@ -14,7 +14,7 @@ postRouter.get(
 );
 
 postRouter.post(
-  "/",
+  "/new",
   runValidations(PostValidation.create),
   postController.createPost
 );

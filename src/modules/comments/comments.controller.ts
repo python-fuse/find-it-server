@@ -33,9 +33,18 @@ export class commentsController {
   }
 
   async createComment(req: Request, res: Response, next: NextFunction) {
-    const comment = req.body;
+    const {
+      content,
+      userID,
+      postID,
+    }: { content: string; userID: string; postID: string } = req.body;
+
     try {
-      const newComment = await CommentsService.createComment(comment);
+      const newComment = await CommentsService.createComment({
+        content,
+        userID,
+        postID,
+      });
       res.json(newComment);
     } catch (error) {
       next(error);
@@ -44,11 +53,12 @@ export class commentsController {
 
   async updateComment(req: Request, res: Response, next: NextFunction) {
     const commentId = req.params.commentId;
-    const comment = req.body;
+    const content = req.body;
+
     try {
       const updatedComment = await CommentsService.updateComment(
         commentId,
-        comment
+        content
       );
       res.json(updatedComment);
     } catch (error) {
