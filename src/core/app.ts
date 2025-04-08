@@ -3,7 +3,6 @@ import { userRouter } from "../modules/user/User.routes";
 import { authRouter } from "../modules/auth/Auth.routes";
 import { errorHandler } from "../middlewares/error.handler";
 import { logger } from "../middlewares/logger";
-const app: Application = express();
 import session from "express-session";
 import { myPassport } from "../passport";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
@@ -14,6 +13,8 @@ import { postRouter } from "../modules/post/post.routes";
 import { commentsRouter } from "../modules/comments/comments.routes";
 
 const cookieSecret = process.env.COOKIE_SECRET || "";
+
+const app: Application = express();
 
 app.use(json());
 app.use(logger);

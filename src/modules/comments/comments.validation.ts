@@ -48,4 +48,12 @@ export class CommentsValidation {
       .isMongoId()
       .withMessage("Invalid comment ID format"),
   ];
+
+  static getPostComment = [
+    param("postId").notEmpty().withMessage("Post ID is required"),
+  ];
+
+  static getUserComments = [
+    param("userId").notEmpty().withMessage("User ID is required"),
+  ];
 }
