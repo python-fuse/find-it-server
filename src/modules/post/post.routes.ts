@@ -16,8 +16,8 @@ postRouter.get(
 
 postRouter.post(
   "/new",
-  runValidations(PostValidation.create),
   upload.single("image"),
+  runValidations(PostValidation.create),
   postController.createPost
 );
 

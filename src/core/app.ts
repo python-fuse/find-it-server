@@ -1,4 +1,5 @@
 import express, { Application, json } from "express";
+import bodyParser from "body-parser";
 import { userRouter } from "../modules/user/User.routes";
 import { authRouter } from "../modules/auth/Auth.routes";
 import { errorHandler } from "../middlewares/error.handler";
@@ -17,6 +18,8 @@ const cookieSecret = process.env.COOKIE_SECRET || "";
 const app: Application = express();
 
 app.use(json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger);
 
 app.use(myPassport.initialize());
@@ -41,7 +44,7 @@ app.get("/", authorizeUser, (req, res) => {
 
 app.use("/v1/users", authorizeUser, userRouter);
 app.use("/v1/auth", authRouter);
-app.use("/v1/posts", authorizeUser, postRouter);
+app.use("/v1/posts", postRouter);
 app.use("/v1/comments", authorizeUser, commentsRouter);
 
 app.use(errorHandler);

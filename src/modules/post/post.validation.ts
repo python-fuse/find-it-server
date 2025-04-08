@@ -1,4 +1,4 @@
-import { body, param ValidationChain } from "express-validator";
+import { body, param, ValidationChain } from "express-validator";
 
 export class PostValidation {
   static get: ValidationChain[] = [
@@ -33,18 +33,6 @@ export class PostValidation {
       .withMessage("Location is required")
       .isString()
       .withMessage("Location must be a string"),
-
-    body("imageURLS")
-      .optional()
-      .isArray()
-      .withMessage("Image URLs must be an array")
-      .custom((value) => {
-        if (!Array.isArray(value)) return true;
-        return value.every(
-          (item) => typeof item === "string" && item.match(/^https?:\/\/.+/)
-        );
-      })
-      .withMessage("Each image URL must be a valid URL string"),
 
     body("postType")
       .notEmpty()
