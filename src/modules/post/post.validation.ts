@@ -1,4 +1,4 @@
-import { body, param, ValidationChain } from "express-validator";
+import { body, param ValidationChain } from "express-validator";
 
 export class PostValidation {
   static get: ValidationChain[] = [

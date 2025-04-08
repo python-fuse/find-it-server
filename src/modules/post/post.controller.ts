@@ -39,8 +39,10 @@ export class postController {
 
   async createPost(req: Request, res: Response, next: NextFunction) {
     const postData = req.body;
+    const imagePath = req.file?.path;
+
     try {
-      const post = await postService.createPost(postData);
+      const post = await postService.createPost(postData, imagePath);
       res.status(200).json(post);
       return;
     } catch (error) {

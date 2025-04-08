@@ -2,6 +2,7 @@ import { Router } from "express";
 import postController from "./post.controller";
 import { PostValidation } from "./post.validation";
 import { runValidations } from "../../middlewares/validations.middleware";
+import { upload } from "../../utils/multer";
 
 const postRouter = Router();
 
@@ -16,6 +17,7 @@ postRouter.get(
 postRouter.post(
   "/new",
   runValidations(PostValidation.create),
+  upload.single("image"),
   postController.createPost
 );
 
