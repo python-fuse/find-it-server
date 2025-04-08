@@ -1,6 +1,8 @@
 import { Post, PostStatus } from "@prisma/client";
-import { NotFoundError } from "../../utils/errors";
+import { BaseError, NotFoundError } from "../../utils/errors";
 import prisma from "../../utils/prisma";
+import fs from "fs";
+import { uploadImage } from "../../utils/cloudinary";
 
 export class PostService {
   async getAllPosts() {
@@ -28,9 +30,31 @@ export class PostService {
 
     return dbPost;
   }
-  async createPost(post: Omit<Post, "id" | "createdAt" | "updatedAt">) {
+  async createPost(
+    post: Omit<Post, "id" | "createdAt" | "updatedAt">,
+    imagePath?: string
+  ) {
+    let imageUrl: string | undefined;
+
+    if (imagePath) {
+      try {
+        imageUrl = await uploadImage(imagePath);
+
+        fs.unlinkSync(imagePath);
+      } catch (error) {
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+        console.error("Error uploading image:", error);
+        throw error;
+      }
+    }
+
     return await prisma.post.create({
-      data: post,
+      data: {
+        ...post,
+        imageURL: imageUrl || "",
+      },
     });
   }
 

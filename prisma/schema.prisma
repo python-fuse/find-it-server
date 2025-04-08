@@ -64,7 +64,7 @@ model Post {
   description String
   category    String
   location    String
-  imageURLS   String[]
+  imageURL    String
   postType    PostType
   postStatus  PostStatus
   user        User       @relation(fields: [userID], references: [id])

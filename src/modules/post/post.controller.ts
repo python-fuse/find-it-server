@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import postService from "./post.service";
+
 export class postController {
   async getAllPosts(req: Request, res: Response, next: NextFunction) {
     try {
